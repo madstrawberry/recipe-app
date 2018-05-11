@@ -14,8 +14,12 @@ export const RECIPE_DETAILS_QUERY = gql`
   }
 `;
 
-interface RecipeDetailsData {
+interface Data {
   recipe: RecipeDetails;
 }
 
-export class RecipeDetailsQuery extends Query<RecipeDetailsData, { id: string }> {}
+interface Variables {
+  id: string;
+}
+
+export class RecipeDetailsQuery extends Query<Data, Variables> {}

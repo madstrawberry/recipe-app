@@ -11,8 +11,8 @@ export const ALL_RECIPES_QUERY = gql`
   }
 `;
 
-interface AllRecipesData {
+interface Data {
   allRecipes: Recipe[];
 }
 
-export class AllRecipesQuery extends Query<AllRecipesData> {}
+export class AllRecipesQuery extends Query<Data> {}
