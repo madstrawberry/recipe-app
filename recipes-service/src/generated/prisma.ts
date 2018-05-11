@@ -2,16 +2,6 @@ import { Prisma as BasePrisma, BasePrismaOptions } from 'prisma-binding'
 import { GraphQLResolveInfo } from 'graphql'
 
 export const typeDefs = `
-type Recipe implements Node {
-  id: ID!
-  title: String!
-  description: String
-  type: RecipeType
-  category: [RecipeCategory!]
-  image: String
-  ingredients: [String!]
-}
-
 type AggregateRecipe {
   count: Int!
 }
@@ -65,6 +55,16 @@ type PageInfo {
   When paginating forwards, the cursor to continue.
   """
   endCursor: String
+}
+
+type Recipe implements Node {
+  id: ID!
+  title: String!
+  description: String
+  type: RecipeType
+  category: [RecipeCategory!]
+  image: String
+  ingredients: [String!]
 }
 
 enum RecipeCategory {
@@ -167,6 +167,10 @@ input RecipeSubscriptionWhereInput {
   """
   OR: [RecipeSubscriptionWhereInput!]
   """
+  Logical NOT on all given filters combined by AND.
+  """
+  NOT: [RecipeSubscriptionWhereInput!]
+  """
   The subscription event gets dispatched when it's listed in mutation_in
   """
   mutation_in: [MutationType!]
@@ -218,6 +222,10 @@ input RecipeWhereInput {
   Logical OR on all given filters.
   """
   OR: [RecipeWhereInput!]
+  """
+  Logical NOT on all given filters combined by AND.
+  """
+  NOT: [RecipeWhereInput!]
   id: ID
   """
   All values that are not equal to given value.
@@ -524,6 +532,7 @@ export interface RecipeCreateInput {
 export interface RecipeWhereInput {
   AND?: RecipeWhereInput[] | RecipeWhereInput
   OR?: RecipeWhereInput[] | RecipeWhereInput
+  NOT?: RecipeWhereInput[] | RecipeWhereInput
   id?: ID_Input
   id_not?: ID_Input
   id_in?: ID_Input[] | ID_Input
@@ -614,6 +623,7 @@ export interface RecipeWhereUniqueInput {
 export interface RecipeSubscriptionWhereInput {
   AND?: RecipeSubscriptionWhereInput[] | RecipeSubscriptionWhereInput
   OR?: RecipeSubscriptionWhereInput[] | RecipeSubscriptionWhereInput
+  NOT?: RecipeSubscriptionWhereInput[] | RecipeSubscriptionWhereInput
   mutation_in?: MutationType[] | MutationType
   updatedFields_contains?: String
   updatedFields_contains_every?: String[] | String

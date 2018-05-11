@@ -1,8 +1,8 @@
 # the name for the service (will be part of the service's HTTP endpoint)
-service: recipes-service
+#service: recipes-service
 
 # the cluster and stage the service is deployed to
-stage: ${env:PRISMA_STAGE}
+#stage: dev
 
 # to disable authentication:
 # disableAuth: true
@@ -15,4 +15,11 @@ datamodel: datamodel.graphql
 seed:
   import: seed.graphql
 
-cluster: ${env:PRISMA_CLUSTER}
+#cluster: recipes/prisma-eu1
+endpoint: ${env:PRISMA_ENDPOINT}
+
+#generate
+hooks: 
+  post-deploy: 
+    - graphql get-schema --project database 
+    - graphql prepare
