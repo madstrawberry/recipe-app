@@ -7,9 +7,6 @@ export const ALL_RECIPES_QUERY = gql`
     allRecipes {
       id
       title
-      category
-      ingredients
-      description
     }
   }
 `;

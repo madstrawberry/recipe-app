@@ -1,14 +1,9 @@
 export type Recipe = {
   title: string;
   id: string;
-  category: RecipeCategory[];
-  ingredients: string[];
-  description: string;
 };
 
 export type RecipeDetails = {
-  id: string;
-  title: string;
   description: string;
   type: RecipeType;
   category: RecipeCategory[];

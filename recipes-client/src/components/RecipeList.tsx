@@ -1,12 +1,56 @@
 import * as React from 'react';
 import { Recipe } from '../models/recipe-models';
+import { RecipeDetailsQuery, RECIPE_DETAILS_QUERY } from '../queries/recipe-details-query';
+import RecipeDetails from './RecipeDetails';
 
 interface Props {
   allRecipes: Recipe[];
 }
 
-const RecipeList = ({ allRecipes }: Props) => {
-  return <div> {allRecipes.map(recipe => <div key={recipe.id}>{recipe.title}</div>)} </div>;
+interface State {
+  toggledItems: string[];
+}
+
+class RecipeList extends React.Component<Props, State> {
+  state: State = {
+    toggledItems: [],
+  };
+
+  onToggle = (id: string) => () => {
+    const toggledItems = this.state.toggledItems.includes(id)
+      ? this.state.toggledItems.filter(item => item !== id)
+      : this.state.toggledItems.concat(id);
+    this.setState({ toggledItems });
+  };
+
+  render() {
+    return (
+      <div>
+        {this.props.allRecipes.map(recipe => (
+          <div style={style} key={recipe.id}>
+            {recipe.title} <button onClick={this.onToggle(recipe.id)}>Toggle</button>
+            {this.state.toggledItems.includes(recipe.id) && (
+              <RecipeDetailsQuery query={RECIPE_DETAILS_QUERY} variables={{ id: recipe.id }}>
+                {({ data, loading }) => {
+                  if (loading) {
+                    return <p>...loading</p>;
+                  }
+
+                  return data ? <RecipeDetails recipe={data.recipe} /> : null;
+                }}
+              </RecipeDetailsQuery>
+            )}
+          </div>
+        ))}
+      </div>
+    );
+  }
+}
+
+const style = {
+  border: '1px solid #ccc',
+  padding: 10,
+  margin: 10,
 };
 
 export default RecipeList;
