@@ -1,0 +1,17 @@
+# import Recipe from "./generated/prisma.graphql"
+
+type Query {
+  allRecipes: [Recipe!]!
+  recipe(id: ID): Recipe
+}
+
+type Mutation {
+  createRecipe(
+    title: String!
+    description: String
+    type: RecipeType
+    category: RecipeCreatecategoryInput!
+    image: String
+    ingredients: RecipeCreateingredientsInput!
+  ): Recipe
+}

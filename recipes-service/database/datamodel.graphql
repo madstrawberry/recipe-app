@@ -1,0 +1,26 @@
+type Recipe {
+  id: ID! @unique
+  title: String!
+  description: String
+  type: RecipeType
+  category: [RecipeCategory!]!
+  image: String
+  ingredients: [String!]!
+}
+
+enum RecipeType {
+  Starter
+  Main
+  Dessert
+  Side
+}
+
+enum RecipeCategory {
+  Vegetarian
+  Meat
+  Fish
+  Sweet
+  Vegan
+  Soup
+  Salad
+}
