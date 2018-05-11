@@ -25,9 +25,9 @@ const server = new GraphQLServer({
   context: req => ({
     ...req,
     db: new Prisma({
-      endpoint: 'https://eu1.prisma.sh/recipes/recipes-service/dev', // the endpoint of the Prisma DB service
-      secret: 'mysecret123', // specified in database/prisma.yml
-      debug: true, // log all GraphQL queries & mutations
+      endpoint: process.env.PRISMA_ENDPOINT, // the endpoint of the Prisma DB service
+      secret: process.env.PRISMA_SECRET, // specified in database/prisma.yml
+      debug: process.env.NODE_ENV === 'development' ? true : false, // log all GraphQL queries & mutations
     }),
   }),
 });
