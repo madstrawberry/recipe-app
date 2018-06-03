@@ -1,16 +1,21 @@
 import * as React from 'react';
 import CreateRecipeForm from './components/CreateRecipeForm';
 import RecipeList from './components/RecipeList';
-import { ALL_RECIPES_QUERY, AllRecipesQuery } from './queries/all-recipes-query';
 import { CREATE_RECIPE_MUTATION, CreateRecipeMutation } from './mutations/create-recipe-mutation';
+import {
+  ALL_RECIPES_QUERY,
+  AllRecipesQuery,
+  recipeAddedSubscriptionPayload,
+} from './queries/all-recipes-query';
 
 class App extends React.Component {
   render() {
     return (
       <div>
         <h1>Alle Recepten</h1>
+
         <AllRecipesQuery query={ALL_RECIPES_QUERY}>
-          {({ data, loading, error }) => {
+          {({ data, loading, error, subscribeToMore }) => {
             if (loading) {
               return <span>Is loading</span>;
             }
@@ -19,7 +24,12 @@ class App extends React.Component {
               return <span>Error</span>;
             }
 
-            return <RecipeList allRecipes={data ? data.allRecipes : []} />;
+            return (
+              <RecipeList
+                allRecipes={data ? data.allRecipes : []}
+                subscribeToAddedRecipes={() => subscribeToMore(recipeAddedSubscriptionPayload)}
+              />
+            );
           }}
         </AllRecipesQuery>
 

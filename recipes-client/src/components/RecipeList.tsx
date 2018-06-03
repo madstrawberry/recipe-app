@@ -1,10 +1,11 @@
 import * as React from 'react';
-import { Recipe } from '../models/recipe-models';
-import { RecipeDetailsQuery, RECIPE_DETAILS_QUERY } from '../queries/recipe-details-query';
 import RecipeDetails from './RecipeDetails';
+import { Recipe } from '../models/recipe-models';
+import { RECIPE_DETAILS_QUERY, RecipeDetailsQuery } from '../queries/recipe-details-query';
 
 interface Props {
   allRecipes: Recipe[];
+  subscribeToAddedRecipes: () => void;
 }
 
 interface State {
@@ -22,6 +23,10 @@ class RecipeList extends React.Component<Props, State> {
       : this.state.toggledItems.concat(id);
     this.setState({ toggledItems });
   };
+
+  componentDidMount() {
+    this.props.subscribeToAddedRecipes();
+  }
 
   render() {
     return (

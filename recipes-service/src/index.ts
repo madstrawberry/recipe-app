@@ -17,6 +17,20 @@ const resolvers = {
       return context.db.mutation.createRecipe({ data: args }, info);
     },
   },
+  Subscription: {
+    recipeAdded: {
+      subscribe(parent, args, context: Context, info) {
+        return context.db.subscription.recipe(
+          {
+            where: {
+              mutation_in: ['CREATED'],
+            },
+          },
+          info
+        );
+      },
+    },
+  },
 };
 
 const server = new GraphQLServer({

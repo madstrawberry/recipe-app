@@ -1,4 +1,4 @@
-# import Recipe from "./generated/prisma.graphql"
+# import Recipe, RecipeSubscriptionPayload from "./generated/prisma.graphql"
 
 type Query {
   allRecipes: [Recipe!]!
@@ -14,4 +14,8 @@ type Mutation {
     image: String
     ingredients: RecipeCreateingredientsInput!
   ): Recipe
+}
+
+type Subscription {
+  recipeAdded: RecipeSubscriptionPayload
 }
