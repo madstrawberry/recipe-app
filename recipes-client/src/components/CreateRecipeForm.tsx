@@ -52,21 +52,20 @@ class CreateRecipeForm extends React.Component<Props, State> {
   };
 
   handleInput = (event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    this.setState({ [event.currentTarget.name as any]: event.currentTarget.value });
+    // @ts-ignore
+    this.setState({ [event.currentTarget.name]: event.currentTarget.value });
   };
 
   handleCheckbox = (event: React.FormEvent<HTMLInputElement>) => {
-    let checked;
+    const fieldValue = event.currentTarget.value;
+    const fieldName = event.currentTarget.name;
 
-    if (!event.currentTarget.checked) {
-      checked = this.state[event.currentTarget.name].filter(
-        (check: string) => check !== event.currentTarget.value
-      );
-    } else {
-      checked = [...this.state[event.currentTarget.name], event.currentTarget.value];
-    }
+    const checked = !event.currentTarget.checked
+      ? this.state[fieldName].filter((check: string) => check !== fieldValue)
+      : [...this.state[fieldName], fieldValue];
 
-    this.setState({ [event.currentTarget.name as any]: checked });
+    // @ts-ignore
+    this.setState({ [fieldName]: checked });
   };
 
   render() {
