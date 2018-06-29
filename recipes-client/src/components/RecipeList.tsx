@@ -2,6 +2,7 @@ import * as React from 'react';
 import Mutation from 'react-apollo/Mutation';
 import Query from 'react-apollo/Query';
 import RecipeDetails from './RecipeDetails';
+import { ALL_RECIPES_QUERY } from '../queries/all-recipes-query';
 import { DELETE_RECIPE_MUTATION } from '../mutations/delete-recipe-mutation';
 import { RECIPE_DETAILS_QUERY } from '../queries/recipe-details-query';
 import {
@@ -45,11 +46,29 @@ class RecipeList extends React.Component<Props, State> {
             {recipe.title}
             <button onClick={this.onToggle(recipe.id)}>Toggle</button>
 
-            <Mutation<DeleteRecipe, DeleteRecipeVariables> mutation={DELETE_RECIPE_MUTATION}>
-              {mutate => (
+            <Mutation<DeleteRecipe, DeleteRecipeVariables>
+              mutation={DELETE_RECIPE_MUTATION}
+              update={(cache, { data }) => {
+                if (!data) return;
+
+                const allRecipesData = cache.readQuery<AllRecipes>({ query: ALL_RECIPES_QUERY });
+
+                if (!allRecipesData) return;
+
+                cache.writeQuery<AllRecipes>({
+                  query: ALL_RECIPES_QUERY,
+                  data: {
+                    allRecipes: allRecipesData.allRecipes.filter(
+                      rec => rec.id !== data.deleteRecipe.id
+                    ),
+                  },
+                });
+              }}
+            >
+              {deleteRecipe => (
                 <button
                   style={{ float: 'right' }}
-                  onClick={() => mutate({ variables: { id: recipe.id } })}
+                  onClick={() => deleteRecipe({ variables: { id: recipe.id } })}
                 >
                   Delete
                 </button>
