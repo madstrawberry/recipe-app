@@ -2,7 +2,7 @@
 
 type Query {
   allRecipes: [Recipe!]!
-  recipe(id: ID): Recipe
+  recipe(id: ID!): Recipe!
 }
 
 type Mutation {
