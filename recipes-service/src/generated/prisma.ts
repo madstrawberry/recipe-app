@@ -60,11 +60,11 @@ type PageInfo {
 type Recipe implements Node {
   id: ID!
   title: String!
-  description: String
-  type: RecipeType
-  category: [RecipeCategory!]
+  description: String!
+  type: RecipeType!
+  category: [RecipeCategory!]!
   image: String
-  ingredients: [String!]
+  ingredients: [String!]!
 }
 
 enum RecipeCategory {
@@ -102,8 +102,8 @@ input RecipeCreateingredientsInput {
 
 input RecipeCreateInput {
   title: String!
-  description: String
-  type: RecipeType
+  description: String!
+  type: RecipeType!
   image: String
   category: RecipeCreatecategoryInput
   ingredients: RecipeCreateingredientsInput
@@ -143,11 +143,11 @@ enum RecipeOrderByInput {
 type RecipePreviousValues {
   id: ID!
   title: String!
-  description: String
-  type: RecipeType
-  category: [RecipeCategory!]
+  description: String!
+  type: RecipeType!
+  category: [RecipeCategory!]!
   image: String
-  ingredients: [String!]
+  ingredients: [String!]!
 }
 
 type RecipeSubscriptionPayload {
@@ -522,8 +522,8 @@ export type RecipeCategory =
 
 export interface RecipeCreateInput {
   title: String
-  description?: String
-  type?: RecipeType
+  description: String
+  type: RecipeType
   image?: String
   category?: RecipeCreatecategoryInput
   ingredients?: RecipeCreateingredientsInput
@@ -659,11 +659,11 @@ export interface BatchPayload {
 export interface RecipePreviousValues {
   id: ID_Output
   title: String
-  description?: String
-  type?: RecipeType
-  category?: RecipeCategory[]
+  description: String
+  type: RecipeType
+  category: RecipeCategory[]
   image?: String
-  ingredients?: String[]
+  ingredients: String[]
 }
 
 export interface AggregateRecipe {
@@ -680,11 +680,11 @@ export interface RecipeSubscriptionPayload {
 export interface Recipe extends Node {
   id: ID_Output
   title: String
-  description?: String
-  type?: RecipeType
-  category?: RecipeCategory[]
+  description: String
+  type: RecipeType
+  category: RecipeCategory[]
   image?: String
-  ingredients?: String[]
+  ingredients: String[]
 }
 
 /*

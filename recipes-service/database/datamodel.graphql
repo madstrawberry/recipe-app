@@ -1,8 +1,8 @@
 type Recipe {
   id: ID! @unique
   title: String!
-  description: String
-  type: RecipeType
+  description: String!
+  type: RecipeType!
   category: [RecipeCategory!]!
   image: String
   ingredients: [String!]!

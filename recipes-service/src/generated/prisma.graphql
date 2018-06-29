@@ -1,5 +1,5 @@
 # source: https://eu1.prisma.sh/recipes/recipes-service/dev
-# timestamp: Fri May 11 2018 11:36:21 GMT+0200 (CEST)
+# timestamp: Fri Jun 29 2018 18:43:56 GMT+0200 (CEST)
 
 type AggregateRecipe {
   count: Int!
@@ -67,11 +67,11 @@ type Query {
 type Recipe implements Node {
   id: ID!
   title: String!
-  description: String
-  type: RecipeType
-  category: [RecipeCategory!]
+  description: String!
+  type: RecipeType!
+  category: [RecipeCategory!]!
   image: String
-  ingredients: [String!]
+  ingredients: [String!]!
 }
 
 enum RecipeCategory {
@@ -104,8 +104,8 @@ input RecipeCreateingredientsInput {
 
 input RecipeCreateInput {
   title: String!
-  description: String
-  type: RecipeType
+  description: String!
+  type: RecipeType!
   image: String
   category: RecipeCreatecategoryInput
   ingredients: RecipeCreateingredientsInput
@@ -140,11 +140,11 @@ enum RecipeOrderByInput {
 type RecipePreviousValues {
   id: ID!
   title: String!
-  description: String
-  type: RecipeType
-  category: [RecipeCategory!]
+  description: String!
+  type: RecipeType!
+  category: [RecipeCategory!]!
   image: String
-  ingredients: [String!]
+  ingredients: [String!]!
 }
 
 type RecipeSubscriptionPayload {
