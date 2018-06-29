@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { RecipeDetails as RecipeDetailsType } from '../models/recipe-models';
+import { GetRecipe } from '../../generated';
 
 interface Props {
-  recipe: RecipeDetailsType;
+  recipe: GetRecipe['recipe'];
 }
 
 class RecipeDetails extends React.Component<Props> {

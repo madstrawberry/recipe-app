@@ -1,16 +1,3 @@
-export type Recipe = {
-  title: string;
-  id: string;
-};
-
-export type RecipeDetails = {
-  description: string;
-  type: RecipeType;
-  category: RecipeCategory[];
-  image: string;
-  ingredients: string[];
-};
-
 export enum RecipeCategory {
   Vegetarian = 'Vegetarisch',
   Meat = 'Vlees',

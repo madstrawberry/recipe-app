@@ -1,8 +1,7 @@
 import gql from 'graphql-tag';
-import { Recipe } from '../models/recipe-models';
 
 export const RECIPE_ADDED_SUBSCRIPTION = gql`
-  subscription {
+  subscription RecipeAdded {
     recipeAdded {
       node {
         id
@@ -11,13 +10,3 @@ export const RECIPE_ADDED_SUBSCRIPTION = gql`
     }
   }
 `;
-
-export interface RecipeAddedSubscriptionData {
-  subscriptionData: {
-    data: {
-      recipeAdded: {
-        node: Recipe;
-      };
-    };
-  };
-}

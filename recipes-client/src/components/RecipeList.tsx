@@ -1,10 +1,11 @@
 import * as React from 'react';
+import Query from 'react-apollo/Query';
 import RecipeDetails from './RecipeDetails';
-import { Recipe } from '../models/recipe-models';
-import { RECIPE_DETAILS_QUERY, RecipeDetailsQuery } from '../queries/recipe-details-query';
+import { AllRecipes, GetRecipe, GetRecipeVariables } from '../../generated';
+import { RECIPE_DETAILS_QUERY } from '../queries/recipe-details-query';
 
 interface Props {
-  allRecipes: Recipe[];
+  allRecipes: AllRecipes['allRecipes'];
   subscribeToAddedRecipes: () => void;
 }
 
@@ -35,15 +36,18 @@ class RecipeList extends React.Component<Props, State> {
           <div style={style} key={recipe.id}>
             {recipe.title} <button onClick={this.onToggle(recipe.id)}>Toggle</button>
             {this.state.toggledItems.includes(recipe.id) && (
-              <RecipeDetailsQuery query={RECIPE_DETAILS_QUERY} variables={{ id: recipe.id }}>
+              <Query<GetRecipe, GetRecipeVariables>
+                query={RECIPE_DETAILS_QUERY}
+                variables={{ id: recipe.id }}
+              >
                 {({ data, loading }) => {
                   if (loading) {
                     return <p>...loading</p>;
                   }
 
-                  return data ? <RecipeDetails recipe={data.recipe} /> : null;
+                  return data && data.recipe ? <RecipeDetails recipe={data.recipe} /> : null;
                 }}
-              </RecipeDetailsQuery>
+              </Query>
             )}
           </div>
         ))}

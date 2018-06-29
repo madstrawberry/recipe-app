@@ -1,13 +1,10 @@
 import gql from 'graphql-tag';
-import Query from 'react-apollo/Query';
-import { Recipe } from '../models/recipe-models';
-import {
-  RECIPE_ADDED_SUBSCRIPTION,
-  RecipeAddedSubscriptionData,
-} from '../subscriptions/recipe-added-subscription';
+import { AllRecipes, RecipeAdded } from '../../generated';
+import { RECIPE_ADDED_SUBSCRIPTION } from '../subscriptions/recipe-added-subscription';
+import { SubscribeToMoreOptions } from 'apollo-client';
 
 export const ALL_RECIPES_QUERY = gql`
-  query {
+  query AllRecipes {
     allRecipes {
       id
       title
@@ -15,16 +12,16 @@ export const ALL_RECIPES_QUERY = gql`
   }
 `;
 
-interface Data {
-  allRecipes: Recipe[];
-}
-
-export class AllRecipesQuery extends Query<Data> {}
-
-export const recipeAddedSubscriptionPayload = {
+export const recipeAddedSubscriptionPayload: SubscribeToMoreOptions = {
   document: RECIPE_ADDED_SUBSCRIPTION,
-  updateQuery: (prev: Data, { subscriptionData }: RecipeAddedSubscriptionData): Data => {
-    const addedRecipeData = subscriptionData.data && subscriptionData.data.recipeAdded.node;
+  updateQuery: (
+    prev: AllRecipes,
+    { subscriptionData }: { subscriptionData: { data: RecipeAdded } }
+  ) => {
+    const addedRecipeData =
+      subscriptionData.data &&
+      subscriptionData.data.recipeAdded &&
+      subscriptionData.data.recipeAdded.node;
 
     return !addedRecipeData
       ? prev

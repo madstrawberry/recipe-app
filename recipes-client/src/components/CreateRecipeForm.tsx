@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { CreateRecipeFormData } from '../models/recipe-form-models';
+import { CreateRecipeVariables } from '../../generated';
 import { RecipeCategory, RecipeType } from '../models/recipe-models';
 
 interface Props {
-  createRecipe: (formData: CreateRecipeFormData) => void;
+  createRecipe: (formData: CreateRecipeVariables) => void;
   isSubmitting: boolean;
 }
 

@@ -1,6 +1,4 @@
 import gql from 'graphql-tag';
-import Mutation from 'react-apollo/Mutation';
-import { CreateRecipeFormData } from './../models/recipe-form-models';
 
 export const CREATE_RECIPE_MUTATION = gql`
   mutation CreateRecipe(
@@ -21,9 +19,3 @@ export const CREATE_RECIPE_MUTATION = gql`
     }
   }
 `;
-
-interface Data {
-  id: string;
-}
-
-export class CreateRecipeMutation extends Mutation<Data, CreateRecipeFormData> {}

@@ -1,16 +1,14 @@
 import * as React from 'react';
+import Query from 'react-apollo/Query';
 import RecipeList from './RecipeList';
-import {
-  AllRecipesQuery,
-  recipeAddedSubscriptionPayload,
-  ALL_RECIPES_QUERY,
-} from '../queries/all-recipes-query';
+import { ALL_RECIPES_QUERY, recipeAddedSubscriptionPayload } from '../queries/all-recipes-query';
+import { AllRecipes } from '../../generated';
 
 interface Props {}
 
 const AllRecipes: React.SFC<Props> = props => {
   return (
-    <AllRecipesQuery query={ALL_RECIPES_QUERY}>
+    <Query<AllRecipes> query={ALL_RECIPES_QUERY}>
       {({ data, loading, error, subscribeToMore }) => {
         if (loading) {
           return <span>Is loading</span>;
@@ -27,7 +25,7 @@ const AllRecipes: React.SFC<Props> = props => {
           />
         );
       }}
-    </AllRecipesQuery>
+    </Query>
   );
 };
 
