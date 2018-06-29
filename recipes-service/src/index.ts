@@ -21,12 +21,12 @@ const resolvers = {
     },
   },
   Subscription: {
-    recipeAdded: {
+    recipeSubscription: {
       subscribe(parent, args, context: Context, info) {
         return context.db.subscription.recipe(
           {
             where: {
-              mutation_in: ['CREATED'],
+              mutation_in: ['CREATED', 'DELETED'],
             },
           },
           info
