@@ -1,7 +1,7 @@
+import { Context } from './utils';
 import { GraphQLServer } from 'graphql-yoga';
 import { importSchema } from 'graphql-import';
 import { Prisma } from './generated/prisma';
-import { Context } from './utils';
 
 const resolvers = {
   Query: {
@@ -15,6 +15,9 @@ const resolvers = {
   Mutation: {
     createRecipe(parent, args, context: Context, info) {
       return context.db.mutation.createRecipe({ data: args }, info);
+    },
+    deleteRecipe(parent, { id }, context: Context, info) {
+      return context.db.mutation.deleteRecipe({ where: { id } }, info);
     },
   },
   Subscription: {
