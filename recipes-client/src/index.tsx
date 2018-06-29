@@ -7,9 +7,12 @@ import { ApolloProvider } from 'react-apollo';
 import './index.css';
 
 ReactDOM.render(
-  <ApolloProvider client={client}>
-    <App />
-  </ApolloProvider>,
-  document.getElementById('root') as HTMLElement
+  (
+    <ApolloProvider client={client}>
+      <App />
+    </ApolloProvider>
+  ) as any,
+  document.getElementById('root')
 );
+
 registerServiceWorker();
