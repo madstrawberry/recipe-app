@@ -16,6 +16,7 @@ export const CREATE_RECIPE_MUTATION = gql`
       category: { set: $category }
     ) {
       id
+      title
     }
   }
 `;

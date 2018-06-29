@@ -13,10 +13,10 @@ type Mutation {
     category: RecipeCreatecategoryInput!
     image: String
     ingredients: RecipeCreateingredientsInput!
-  ): Recipe
+  ): Recipe!
   deleteRecipe(id: ID!): Recipe!
 }
 
 type Subscription {
-  recipeSubscription: RecipeSubscriptionPayload
+  recipeSubscription: RecipeSubscriptionPayload!
 }

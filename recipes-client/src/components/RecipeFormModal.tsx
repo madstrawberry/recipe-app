@@ -1,8 +1,9 @@
 import * as Modal from 'react-modal';
 import * as React from 'react';
 import CreateRecipeForm from './CreateRecipeForm';
+import { ALL_RECIPES_QUERY } from '../queries/all-recipes-query';
+import { AllRecipes, CreateRecipe, CreateRecipeVariables } from '../generated';
 import { CREATE_RECIPE_MUTATION } from '../mutations/create-recipe-mutation';
-import { CreateRecipe, CreateRecipeVariables } from '../generated';
 import { Mutation } from 'react-apollo';
 
 interface Props {
@@ -21,7 +22,23 @@ class RecipeFormModal extends React.Component<Props> {
         contentLabel="Add recipe"
         style={modalStyle}
       >
-        <Mutation<CreateRecipe, CreateRecipeVariables> mutation={CREATE_RECIPE_MUTATION}>
+        <Mutation<CreateRecipe, CreateRecipeVariables>
+          mutation={CREATE_RECIPE_MUTATION}
+          update={(cache, { data }) => {
+            if (!data) return;
+
+            const allRecipesData = cache.readQuery<AllRecipes>({ query: ALL_RECIPES_QUERY });
+
+            if (!allRecipesData) return;
+
+            cache.writeQuery<AllRecipes>({
+              query: ALL_RECIPES_QUERY,
+              data: {
+                allRecipes: allRecipesData.allRecipes.concat(data.createRecipe),
+              },
+            });
+          }}
+        >
           {(createRecipe, { loading, error }) => {
             if (error) {
               return 'Something went wrong';

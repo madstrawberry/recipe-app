@@ -15,26 +15,28 @@ export const ALL_RECIPES_QUERY = gql`
 export const recipeSubscriptionPayload: SubscribeToMoreOptions = {
   document: RECIPE_SUBSCRIPTION,
   updateQuery: (
-    prev: AllRecipes,
+    { allRecipes }: AllRecipes,
     { subscriptionData }: { subscriptionData: { data: RecipeSubscription } }
   ): AllRecipes => {
     const recipeSubscription = subscriptionData.data.recipeSubscription;
-    if (!recipeSubscription) return prev;
-
-    let allRecipes = null;
+    let updatedRecipes = null;
 
     if (recipeSubscription.mutation === MutationType.CREATED) {
       const addedRecipe = recipeSubscription.node;
 
-      allRecipes = addedRecipe && [...prev.allRecipes, addedRecipe];
+      if (addedRecipe) {
+        const isAlreadyThere = allRecipes.map(recipe => recipe.id).includes(addedRecipe.id);
+        updatedRecipes = !isAlreadyThere ? [...allRecipes, addedRecipe] : null;
+      }
     }
 
     if (recipeSubscription.mutation === MutationType.DELETED) {
       const removedRecipe = recipeSubscription.previousValues;
-      allRecipes =
-        removedRecipe && prev.allRecipes.filter(recipe => recipe.id !== removedRecipe.id);
+      updatedRecipes = removedRecipe
+        ? allRecipes.filter(recipe => recipe.id !== removedRecipe.id)
+        : null;
     }
 
-    return !allRecipes ? prev : { allRecipes };
+    return { allRecipes: updatedRecipes ? updatedRecipes : allRecipes };
   },
 };

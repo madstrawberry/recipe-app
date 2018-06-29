@@ -9,10 +9,11 @@
 
 export interface CreateRecipe_createRecipe {
   id: string;
+  title: string;
 }
 
 export interface CreateRecipe {
-  createRecipe: CreateRecipe_createRecipe | null;
+  createRecipe: CreateRecipe_createRecipe;
 }
 
 export interface CreateRecipeVariables {
@@ -108,7 +109,7 @@ export interface RecipeSubscription_recipeSubscription {
 }
 
 export interface RecipeSubscription {
-  recipeSubscription: RecipeSubscription_recipeSubscription | null;
+  recipeSubscription: RecipeSubscription_recipeSubscription;
 }
 
 /* tslint:disable */
