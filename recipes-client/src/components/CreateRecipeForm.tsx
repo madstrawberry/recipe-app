@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { CreateRecipeVariables } from '../../generated';
+import { CreateRecipeVariables } from '../generated';
 import { RecipeCategory, RecipeType } from '../models/recipe-models';
 
 interface Props {

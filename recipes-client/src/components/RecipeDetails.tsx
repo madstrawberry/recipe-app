@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { GetRecipe } from '../../generated';
+import { GetRecipe } from '../generated';
 
 interface Props {
   recipe: GetRecipe['recipe'];

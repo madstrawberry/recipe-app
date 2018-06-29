@@ -2,7 +2,7 @@ import * as Modal from 'react-modal';
 import * as React from 'react';
 import CreateRecipeForm from './CreateRecipeForm';
 import { CREATE_RECIPE_MUTATION } from '../mutations/create-recipe-mutation';
-import { CreateRecipe, CreateRecipeVariables } from '../../generated';
+import { CreateRecipe, CreateRecipeVariables } from '../generated';
 import { Mutation } from 'react-apollo';
 
 interface Props {
@@ -15,20 +15,21 @@ class RecipeFormModal extends React.Component<Props> {
 
     return (
       <Modal
+        ariaHideApp={false}
         isOpen={true}
         onRequestClose={onClickCloseModal}
         contentLabel="Add recipe"
         style={modalStyle}
       >
         <Mutation<CreateRecipe, CreateRecipeVariables> mutation={CREATE_RECIPE_MUTATION}>
-          {(mutate, { loading, error }) => {
+          {(createRecipe, { loading, error }) => {
             if (error) {
               return 'Something went wrong';
             }
 
             return (
               <CreateRecipeForm
-                createRecipe={data => mutate({ variables: data })}
+                createRecipe={data => createRecipe({ variables: data })}
                 isSubmitting={loading}
               />
             );

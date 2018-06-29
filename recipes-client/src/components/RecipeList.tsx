@@ -10,11 +10,11 @@ import {
   GetRecipeVariables,
   DeleteRecipeVariables,
   DeleteRecipe,
-} from '../../generated';
+} from '../generated';
 
 interface Props {
   allRecipes: AllRecipes['allRecipes'];
-  subscribeToAddedRecipes: () => void;
+  subscribeToRecipes: () => void;
 }
 
 interface State {
@@ -34,7 +34,7 @@ class RecipeList extends React.Component<Props, State> {
   };
 
   componentDidMount() {
-    this.props.subscribeToAddedRecipes();
+    this.props.subscribeToRecipes();
   }
 
   render() {

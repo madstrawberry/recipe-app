@@ -32,7 +32,7 @@ export interface CreateRecipeVariables {
 // ====================================================
 
 export interface DeleteRecipe_deleteRecipe {
-  title: string;
+  id: string;
 }
 
 export interface DeleteRecipe {
@@ -89,20 +89,26 @@ export interface GetRecipeVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL subscription operation: RecipeAdded
+// GraphQL subscription operation: RecipeSubscription
 // ====================================================
 
-export interface RecipeAdded_recipeAdded_node {
+export interface RecipeSubscription_recipeSubscription_previousValues {
+  id: string;
+}
+
+export interface RecipeSubscription_recipeSubscription_node {
   id: string;
   title: string;
 }
 
-export interface RecipeAdded_recipeAdded {
-  node: RecipeAdded_recipeAdded_node | null;
+export interface RecipeSubscription_recipeSubscription {
+  mutation: MutationType;
+  previousValues: RecipeSubscription_recipeSubscription_previousValues | null;
+  node: RecipeSubscription_recipeSubscription_node | null;
 }
 
-export interface RecipeAdded {
-  recipeAdded: RecipeAdded_recipeAdded | null;
+export interface RecipeSubscription {
+  recipeSubscription: RecipeSubscription_recipeSubscription | null;
 }
 
 /* tslint:disable */
@@ -127,6 +133,12 @@ export enum RecipeCategory {
   Sweet = "Sweet",
   Vegan = "Vegan",
   Vegetarian = "Vegetarian",
+}
+
+export enum MutationType {
+  CREATED = "CREATED",
+  DELETED = "DELETED",
+  UPDATED = "UPDATED",
 }
 
 //==============================================================
