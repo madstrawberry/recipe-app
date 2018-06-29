@@ -1,8 +1,16 @@
 import * as React from 'react';
+import Mutation from 'react-apollo/Mutation';
 import Query from 'react-apollo/Query';
 import RecipeDetails from './RecipeDetails';
-import { AllRecipes, GetRecipe, GetRecipeVariables } from '../../generated';
+import { DELETE_RECIPE_MUTATION } from '../mutations/delete-recipe-mutation';
 import { RECIPE_DETAILS_QUERY } from '../queries/recipe-details-query';
+import {
+  AllRecipes,
+  GetRecipe,
+  GetRecipeVariables,
+  DeleteRecipeVariables,
+  DeleteRecipe,
+} from '../../generated';
 
 interface Props {
   allRecipes: AllRecipes['allRecipes'];
@@ -34,7 +42,20 @@ class RecipeList extends React.Component<Props, State> {
       <div>
         {this.props.allRecipes.map(recipe => (
           <div style={style} key={recipe.id}>
-            {recipe.title} <button onClick={this.onToggle(recipe.id)}>Toggle</button>
+            {recipe.title}
+            <button onClick={this.onToggle(recipe.id)}>Toggle</button>
+
+            <Mutation<DeleteRecipe, DeleteRecipeVariables> mutation={DELETE_RECIPE_MUTATION}>
+              {mutate => (
+                <button
+                  style={{ float: 'right' }}
+                  onClick={() => mutate({ variables: { id: recipe.id } })}
+                >
+                  Delete
+                </button>
+              )}
+            </Mutation>
+
             {this.state.toggledItems.includes(recipe.id) && (
               <Query<GetRecipe, GetRecipeVariables>
                 query={RECIPE_DETAILS_QUERY}

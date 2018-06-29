@@ -4,6 +4,50 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL mutation operation: CreateRecipe
+// ====================================================
+
+export interface CreateRecipe_createRecipe {
+  id: string;
+}
+
+export interface CreateRecipe {
+  createRecipe: CreateRecipe_createRecipe | null;
+}
+
+export interface CreateRecipeVariables {
+  title: string;
+  description: string;
+  ingredients: string[];
+  type: RecipeType;
+  category: RecipeCategory[];
+}
+
+
+/* tslint:disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: DeleteRecipe
+// ====================================================
+
+export interface DeleteRecipe_deleteRecipe {
+  title: string;
+}
+
+export interface DeleteRecipe {
+  deleteRecipe: DeleteRecipe_deleteRecipe;
+}
+
+export interface DeleteRecipeVariables {
+  id: string;
+}
+
+
+/* tslint:disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: AllRecipes
 // ====================================================
 
@@ -45,30 +89,6 @@ export interface GetRecipeVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL mutation operation: CreateRecipe
-// ====================================================
-
-export interface CreateRecipe_createRecipe {
-  id: string;
-}
-
-export interface CreateRecipe {
-  createRecipe: CreateRecipe_createRecipe | null;
-}
-
-export interface CreateRecipeVariables {
-  title: string;
-  description: string;
-  ingredients: string[];
-  type: RecipeType;
-  category: RecipeCategory[];
-}
-
-
-/* tslint:disable */
-// This file was automatically generated and should not be edited.
-
-// ====================================================
 // GraphQL subscription operation: RecipeAdded
 // ====================================================
 
@@ -92,6 +112,13 @@ export interface RecipeAdded {
 // START Enums and Input Objects
 //==============================================================
 
+export enum RecipeType {
+  Dessert = "Dessert",
+  Main = "Main",
+  Side = "Side",
+  Starter = "Starter",
+}
+
 export enum RecipeCategory {
   Fish = "Fish",
   Meat = "Meat",
@@ -100,13 +127,6 @@ export enum RecipeCategory {
   Sweet = "Sweet",
   Vegan = "Vegan",
   Vegetarian = "Vegetarian",
-}
-
-export enum RecipeType {
-  Dessert = "Dessert",
-  Main = "Main",
-  Side = "Side",
-  Starter = "Starter",
 }
 
 //==============================================================
