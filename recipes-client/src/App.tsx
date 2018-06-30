@@ -1,18 +1,18 @@
 import * as React from 'react';
 import AddRecipeButton from './components/OpenRecipesButton';
+import AddRecipeFormModal from './components/AddRecipeFormModal';
 import AllRecipes from './components/AllRecipes';
-import RecipeFormModal from './components/RecipeFormModal';
 
 interface State {
-  isModalOpen: boolean;
+  isAddRecipeModalOpen: boolean;
 }
 
 class App extends React.Component<{}, State> {
   state: State = {
-    isModalOpen: false,
+    isAddRecipeModalOpen: false,
   };
 
-  toggleModal = () => this.setState({ isModalOpen: !this.state.isModalOpen });
+  toggleModal = () => this.setState({ isAddRecipeModalOpen: !this.state.isAddRecipeModalOpen });
 
   render() {
     return (
@@ -22,7 +22,9 @@ class App extends React.Component<{}, State> {
 
         <h2>Voeg Recept toe</h2>
         <AddRecipeButton onClick={this.toggleModal} />
-        {this.state.isModalOpen && <RecipeFormModal onClickCloseModal={this.toggleModal} />}
+        {this.state.isAddRecipeModalOpen && (
+          <AddRecipeFormModal onClickCloseModal={this.toggleModal} />
+        )}
       </div>
     );
   }

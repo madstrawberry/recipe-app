@@ -10,7 +10,7 @@ interface Props {
   onClickCloseModal: () => void;
 }
 
-class RecipeFormModal extends React.Component<Props> {
+class AddRecipeFormModal extends React.Component<Props> {
   render() {
     const { onClickCloseModal } = this.props;
 
@@ -55,4 +55,4 @@ class RecipeFormModal extends React.Component<Props> {
   }
 }
 
-export default RecipeFormModal;
+export default AddRecipeFormModal;
