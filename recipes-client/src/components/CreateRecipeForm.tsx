@@ -13,6 +13,7 @@ interface State {
   category: RecipeCategory[];
   description: string;
   formMessage: string;
+  type: RecipeType | undefined;
 }
 
 class CreateRecipeForm extends React.Component<Props, State> {
@@ -22,12 +23,13 @@ class CreateRecipeForm extends React.Component<Props, State> {
     category: [],
     description: '',
     formMessage: '',
+    type: undefined,
   };
 
   handleSubmit = () => {
-    const { title, category, ingredients, description } = this.state;
+    const { title, category, ingredients, description, type } = this.state;
 
-    if (title === '' || !category.length || ingredients === '') {
+    if (!title || !category.length || !ingredients || !type) {
       this.setState({ formMessage: 'Fill in all fields!' });
       return;
     }
@@ -37,7 +39,7 @@ class CreateRecipeForm extends React.Component<Props, State> {
       category,
       ingredients: ingredients.split(',').filter(ingredient => ingredient !== ''),
       description,
-      type: Object.keys(RecipeType).find(key => RecipeType[key] === 'Hoofdgerecht') as RecipeType,
+      type,
     };
 
     this.props.createRecipe(formData);
@@ -48,6 +50,7 @@ class CreateRecipeForm extends React.Component<Props, State> {
       ingredients: '',
       category: [],
       description: '',
+      type: undefined,
     });
   };
 
@@ -68,8 +71,22 @@ class CreateRecipeForm extends React.Component<Props, State> {
     this.setState({ [fieldName]: checked });
   };
 
+  handleRadio = (event: React.FormEvent<HTMLInputElement>) => {
+    const fieldValue = event.currentTarget.value;
+    const fieldName = event.currentTarget.name;
+
+    // @ts-ignore
+    this.setState({ [fieldName]: fieldValue });
+  };
+
   render() {
-    const { ingredients, title, description, category: selectedCategory } = this.state;
+    const {
+      ingredients,
+      title,
+      description,
+      category: selectedCategory,
+      type: selectedType,
+    } = this.state;
     return (
       <div>
         <div>
@@ -97,6 +114,23 @@ class CreateRecipeForm extends React.Component<Props, State> {
                   checked={selectedCategory.includes(category as RecipeCategory)}
                 />
                 {RecipeCategory[category]}
+              </label>
+            </div>
+          ))}
+        </div>
+        <div>
+          Type: <br />
+          {Object.keys(RecipeType).map((type, index) => (
+            <div key={index}>
+              <label>
+                <input
+                  type="radio"
+                  name="type"
+                  onChange={this.handleRadio}
+                  value={type}
+                  checked={!!selectedType && selectedType === type}
+                />
+                {RecipeType[type]}
               </label>
             </div>
           ))}
