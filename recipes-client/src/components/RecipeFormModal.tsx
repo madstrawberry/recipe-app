@@ -1,6 +1,6 @@
-import * as Modal from 'react-modal';
 import * as React from 'react';
 import CreateRecipeForm from './CreateRecipeForm';
+import Modal from './Modal';
 import { ALL_RECIPES_QUERY } from '../queries/all-recipes-query';
 import { AllRecipes, CreateRecipe, CreateRecipeVariables } from '../generated';
 import { CREATE_RECIPE_MUTATION } from '../mutations/create-recipe-mutation';
@@ -15,13 +15,7 @@ class RecipeFormModal extends React.Component<Props> {
     const { onClickCloseModal } = this.props;
 
     return (
-      <Modal
-        ariaHideApp={false}
-        isOpen={true}
-        onRequestClose={onClickCloseModal}
-        contentLabel="Add recipe"
-        style={modalStyle}
-      >
+      <Modal onClickCloseModal={onClickCloseModal}>
         <Mutation<CreateRecipe, CreateRecipeVariables>
           mutation={CREATE_RECIPE_MUTATION}
           update={(cache, { data }) => {
@@ -60,19 +54,5 @@ class RecipeFormModal extends React.Component<Props> {
     );
   }
 }
-
-const modalStyle = {
-  content: {
-    top: '50%',
-    left: '50%',
-    right: 'auto',
-    bottom: 'auto',
-    marginRight: '-50%',
-    transform: 'translate(-50%, -50%)',
-  },
-  overlay: {
-    background: 'rgba(0,0,0,0.4)',
-  },
-};
 
 export default RecipeFormModal;
