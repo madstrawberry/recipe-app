@@ -3,7 +3,7 @@ import { CreateRecipeVariables } from '../generated';
 import { RecipeCategory, RecipeType } from '../models/recipe-models';
 
 interface Props {
-  createRecipe: (formData: CreateRecipeVariables) => void;
+  submitForm: (formData: CreateRecipeVariables) => void;
   isSubmitting: boolean;
 }
 
@@ -42,10 +42,10 @@ class CreateRecipeForm extends React.Component<Props, State> {
       type,
     };
 
-    this.props.createRecipe(formData);
+    this.props.submitForm(formData);
 
     this.setState({
-      formMessage: 'Form sent!',
+      formMessage: '',
       title: '',
       ingredients: '',
       category: [],
@@ -95,7 +95,13 @@ class CreateRecipeForm extends React.Component<Props, State> {
         </div>
         <div>
           Beschrijving: <br />
-          <input type="text" value={description} name="description" onChange={this.handleInput} />
+          <textarea
+            cols={30}
+            rows={4}
+            value={description}
+            name="description"
+            onChange={this.handleInput}
+          />
         </div>
         <div>
           Ingredienten (komma gescheiden): <br />

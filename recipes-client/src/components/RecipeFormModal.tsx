@@ -39,14 +39,18 @@ class RecipeFormModal extends React.Component<Props> {
             });
           }}
         >
-          {(createRecipe, { loading, error }) => {
+          {(createRecipe, { loading, error, called }) => {
             if (error) {
               return 'Something went wrong';
             }
 
+            if (called) {
+              return 'Recipe has been added!';
+            }
+
             return (
               <CreateRecipeForm
-                createRecipe={data => createRecipe({ variables: data })}
+                submitForm={data => createRecipe({ variables: data })}
                 isSubmitting={loading}
               />
             );
