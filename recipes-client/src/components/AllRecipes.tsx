@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Query from 'react-apollo/Query';
 import RecipeList from './RecipeList';
-import { ALL_RECIPES_QUERY, recipeSubscriptionPayload } from '../queries/all-recipes-query';
+import { ALL_RECIPES_QUERY, recipeSubscriptionOptions } from '../queries/all-recipes-query';
 import { AllRecipes } from '../generated';
 
 interface Props {}
@@ -21,7 +21,7 @@ const AllRecipes: React.SFC<Props> = props => {
         return (
           <RecipeList
             allRecipes={data ? data.allRecipes : []}
-            subscribeToRecipes={() => subscribeToMore(recipeSubscriptionPayload)}
+            subscribeToRecipes={() => subscribeToMore(recipeSubscriptionOptions)}
           />
         );
       }}

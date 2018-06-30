@@ -12,29 +12,24 @@ export const ALL_RECIPES_QUERY = gql`
   }
 `;
 
-export const recipeSubscriptionPayload: SubscribeToMoreOptions = {
+export const recipeSubscriptionOptions: SubscribeToMoreOptions = {
   document: RECIPE_SUBSCRIPTION,
   updateQuery: (
     { allRecipes }: AllRecipes,
     { subscriptionData }: { subscriptionData: { data: RecipeSubscription } }
   ): AllRecipes => {
     const recipeSubscription = subscriptionData.data.recipeSubscription;
-    let updatedRecipes = null;
+    const addedRecipe = recipeSubscription.node;
+    const removedRecipe = recipeSubscription.previousValues;
+    let updatedRecipes: AllRecipes['allRecipes'] | null = null;
 
-    if (recipeSubscription.mutation === MutationType.CREATED) {
-      const addedRecipe = recipeSubscription.node;
-
-      if (addedRecipe) {
-        const isAlreadyThere = allRecipes.map(recipe => recipe.id).includes(addedRecipe.id);
-        updatedRecipes = !isAlreadyThere ? [...allRecipes, addedRecipe] : null;
-      }
+    if (recipeSubscription.mutation === MutationType.CREATED && addedRecipe) {
+      const isAlreadyThere = allRecipes.map(recipe => recipe.id).includes(addedRecipe.id);
+      updatedRecipes = isAlreadyThere ? null : [...allRecipes, addedRecipe];
     }
 
-    if (recipeSubscription.mutation === MutationType.DELETED) {
-      const removedRecipe = recipeSubscription.previousValues;
-      updatedRecipes = removedRecipe
-        ? allRecipes.filter(recipe => recipe.id !== removedRecipe.id)
-        : null;
+    if (recipeSubscription.mutation === MutationType.DELETED && removedRecipe) {
+      updatedRecipes = allRecipes.filter(recipe => recipe.id !== removedRecipe.id);
     }
 
     return { allRecipes: updatedRecipes ? updatedRecipes : allRecipes };
