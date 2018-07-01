@@ -1,0 +1,13 @@
+type EditModal {
+  isEditModalOpen: Boolean!
+  recipeId: ID!
+}
+
+type Mutation {
+  openEditModal(id: ID!): Boolean!
+  closeEditModal: Boolean!
+}
+
+type Query {
+  editModal: EditModal!
+}

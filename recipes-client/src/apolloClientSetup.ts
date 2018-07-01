@@ -5,6 +5,9 @@ import { HttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { onError } from 'apollo-link-error';
 import { WebSocketLink } from 'apollo-link-ws';
+import { withClientState } from 'apollo-link-state';
+
+const appCache = new InMemoryCache();
 
 const wsLink = new WebSocketLink({
   uri: 'ws://localhost:4000/',
@@ -27,6 +30,28 @@ const link = split(
   httpLink
 );
 
+export interface ClientState {
+  editModal: {
+    __typename: 'editModal';
+    isEditModalOpen: boolean;
+    recipeId: string | null;
+  };
+}
+
+const initialState: ClientState = {
+  editModal: {
+    __typename: 'editModal',
+    isEditModalOpen: false,
+    recipeId: null,
+  },
+};
+
+const clientStateLink = withClientState({
+  cache: appCache,
+  resolvers: {},
+  defaults: initialState,
+});
+
 const client = new ApolloClient({
   link: ApolloLink.from([
     onError(({ graphQLErrors, networkError }) => {
@@ -39,9 +64,10 @@ const client = new ApolloClient({
         console.log(`[Network error]: ${networkError}`);
       }
     }),
+    clientStateLink,
     link,
   ]),
-  cache: new InMemoryCache(),
+  cache: appCache,
 });
 
 export default client;
