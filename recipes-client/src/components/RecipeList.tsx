@@ -3,6 +3,8 @@ import Mutation from 'react-apollo/Mutation';
 import Query from 'react-apollo/Query';
 import RecipeDetails from './RecipeDetails';
 import { ALL_RECIPES_QUERY } from '../queries/all-recipes-query';
+import { ApolloConsumer } from 'react-apollo';
+import { ClientState } from '../apolloClientSetup';
 import { DELETE_RECIPE_MUTATION } from '../mutations/delete-recipe-mutation';
 import { RECIPE_DETAILS_QUERY } from '../queries/recipe-details-query';
 import {
@@ -46,34 +48,53 @@ class RecipeList extends React.Component<Props, State> {
             {recipe.title}
             <button onClick={this.onToggle(recipe.id)}>Toggle</button>
 
-            <Mutation<DeleteRecipe, DeleteRecipeVariables>
-              mutation={DELETE_RECIPE_MUTATION}
-              update={(cache, { data }) => {
-                if (!data) return;
+            <div style={{ float: 'right' }}>
+              <ApolloConsumer>
+                {client => (
+                  <button
+                    onClick={() =>
+                      client.writeData<Partial<ClientState>>({
+                        data: {
+                          editModal: {
+                            isEditModalOpen: true,
+                            recipeId: recipe.id,
+                            __typename: 'editModal',
+                          },
+                        },
+                      })
+                    }
+                  >
+                    Edit
+                  </button>
+                )}
+              </ApolloConsumer>
 
-                const allRecipesData = cache.readQuery<AllRecipes>({ query: ALL_RECIPES_QUERY });
+              <Mutation<DeleteRecipe, DeleteRecipeVariables>
+                mutation={DELETE_RECIPE_MUTATION}
+                update={(cache, { data }) => {
+                  if (!data) return;
 
-                if (!allRecipesData) return;
+                  const allRecipesData = cache.readQuery<AllRecipes>({ query: ALL_RECIPES_QUERY });
 
-                cache.writeQuery<AllRecipes>({
-                  query: ALL_RECIPES_QUERY,
-                  data: {
-                    allRecipes: allRecipesData.allRecipes.filter(
-                      rec => rec.id !== data.deleteRecipe.id
-                    ),
-                  },
-                });
-              }}
-            >
-              {deleteRecipe => (
-                <button
-                  style={{ float: 'right' }}
-                  onClick={() => deleteRecipe({ variables: { id: recipe.id } })}
-                >
-                  Delete
-                </button>
-              )}
-            </Mutation>
+                  if (!allRecipesData) return;
+
+                  cache.writeQuery<AllRecipes>({
+                    query: ALL_RECIPES_QUERY,
+                    data: {
+                      allRecipes: allRecipesData.allRecipes.filter(
+                        rec => rec.id !== data.deleteRecipe.id
+                      ),
+                    },
+                  });
+                }}
+              >
+                {deleteRecipe => (
+                  <button onClick={() => deleteRecipe({ variables: { id: recipe.id } })}>
+                    Delete
+                  </button>
+                )}
+              </Mutation>
+            </div>
 
             {this.state.toggledItems.includes(recipe.id) && (
               <Query<GetRecipe, GetRecipeVariables>

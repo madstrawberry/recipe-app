@@ -4,6 +4,64 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: AllRecipes
+// ====================================================
+
+export interface AllRecipes_allRecipes {
+  id: string;
+  title: string;
+}
+
+export interface AllRecipes {
+  allRecipes: AllRecipes_allRecipes[];
+}
+
+
+/* tslint:disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: EditModal
+// ====================================================
+
+export interface EditModal_editModal {
+  isEditModalOpen: boolean;
+  recipeId: string;
+}
+
+export interface EditModal {
+  editModal: EditModal_editModal;
+}
+
+
+/* tslint:disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: GetRecipe
+// ====================================================
+
+export interface GetRecipe_recipe {
+  category: RecipeCategory[];
+  description: string;
+  image: string | null;
+  ingredients: string[];
+  type: RecipeType;
+}
+
+export interface GetRecipe {
+  recipe: GetRecipe_recipe;
+}
+
+export interface GetRecipeVariables {
+  id: string;
+}
+
+
+/* tslint:disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: CreateRecipe
 // ====================================================
 
@@ -49,47 +107,6 @@ export interface DeleteRecipeVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: AllRecipes
-// ====================================================
-
-export interface AllRecipes_allRecipes {
-  id: string;
-  title: string;
-}
-
-export interface AllRecipes {
-  allRecipes: AllRecipes_allRecipes[];
-}
-
-
-/* tslint:disable */
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL query operation: GetRecipe
-// ====================================================
-
-export interface GetRecipe_recipe {
-  category: RecipeCategory[];
-  description: string;
-  image: string | null;
-  ingredients: string[];
-  type: RecipeType;
-}
-
-export interface GetRecipe {
-  recipe: GetRecipe_recipe;
-}
-
-export interface GetRecipeVariables {
-  id: string;
-}
-
-
-/* tslint:disable */
-// This file was automatically generated and should not be edited.
-
-// ====================================================
 // GraphQL subscription operation: RecipeSubscription
 // ====================================================
 
@@ -119,13 +136,6 @@ export interface RecipeSubscription {
 // START Enums and Input Objects
 //==============================================================
 
-export enum RecipeType {
-  Dessert = "Dessert",
-  Main = "Main",
-  Side = "Side",
-  Starter = "Starter",
-}
-
 export enum RecipeCategory {
   Fish = "Fish",
   Meat = "Meat",
@@ -134,6 +144,13 @@ export enum RecipeCategory {
   Sweet = "Sweet",
   Vegan = "Vegan",
   Vegetarian = "Vegetarian",
+}
+
+export enum RecipeType {
+  Dessert = "Dessert",
+  Main = "Main",
+  Side = "Side",
+  Starter = "Starter",
 }
 
 export enum MutationType {
