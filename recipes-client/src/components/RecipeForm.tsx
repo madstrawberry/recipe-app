@@ -1,8 +1,9 @@
 import * as React from 'react';
-import { CreateRecipeVariables } from '../generated';
+import { CreateRecipeVariables, GetEditRecipe_recipe } from '../generated';
 import { RecipeCategory, RecipeType } from '../models/recipe-models';
 
 interface Props {
+  initialData?: GetEditRecipe_recipe;
   submitForm: (formData: CreateRecipeVariables) => void;
   isSubmitting: boolean;
 }
@@ -16,15 +17,32 @@ interface State {
   type: RecipeType | undefined;
 }
 
-class CreateRecipeForm extends React.Component<Props, State> {
-  state: State = {
-    title: '',
-    ingredients: '',
-    category: [],
-    description: '',
-    formMessage: '',
-    type: undefined,
-  };
+class RecipeForm extends React.Component<Props, State> {
+  state: State; // somehow does not work without this...
+
+  constructor(props: Props) {
+    super(props);
+
+    const { initialData } = this.props;
+
+    if (initialData) {
+      this.state = {
+        ...initialData,
+        ingredients: initialData.ingredients.join(','),
+        type: initialData.type as RecipeType, // temp type hack
+        formMessage: '',
+      };
+    } else {
+      this.state = {
+        title: '',
+        description: '',
+        ingredients: '',
+        category: [],
+        type: undefined,
+        formMessage: '',
+      };
+    }
+  }
 
   handleSubmit = () => {
     const { title, category, ingredients, description, type } = this.state;
@@ -150,4 +168,4 @@ class CreateRecipeForm extends React.Component<Props, State> {
   }
 }
 
-export default CreateRecipeForm;
+export default RecipeForm;

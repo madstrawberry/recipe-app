@@ -1,6 +1,6 @@
 import * as React from 'react';
-import CreateRecipeForm from './CreateRecipeForm';
 import Modal from './Modal';
+import RecipeForm from './RecipeForm';
 import { ALL_RECIPES_QUERY } from '../queries/all-recipes-query';
 import { AllRecipes, CreateRecipe, CreateRecipeVariables } from '../generated';
 import { CREATE_RECIPE_MUTATION } from '../mutations/create-recipe-mutation';
@@ -43,7 +43,7 @@ class AddRecipeFormModal extends React.Component<Props> {
             }
 
             return (
-              <CreateRecipeForm
+              <RecipeForm
                 submitForm={data => createRecipe({ variables: data })}
                 isSubmitting={loading}
               />
