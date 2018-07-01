@@ -16,6 +16,10 @@ const resolvers = {
     createRecipe(parent, args, context: Context, info) {
       return context.db.mutation.createRecipe({ data: args }, info);
     },
+    editRecipe(parent, args, context: Context, info) {
+      const { id, ...rest } = args;
+      return context.db.mutation.updateRecipe({ data: rest, where: { id } }, info);
+    },
     deleteRecipe(parent, { id }, context: Context, info) {
       return context.db.mutation.deleteRecipe({ where: { id } }, info);
     },

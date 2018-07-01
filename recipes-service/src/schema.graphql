@@ -14,6 +14,17 @@ type Mutation {
     image: String
     ingredients: RecipeCreateingredientsInput!
   ): Recipe!
+
+  editRecipe(
+    id: ID!
+    title: String
+    description: String
+    type: RecipeType
+    category: RecipeCreatecategoryInput
+    image: String
+    ingredients: RecipeCreateingredientsInput
+  ): Recipe!
+
   deleteRecipe(id: ID!): Recipe!
 }
 
