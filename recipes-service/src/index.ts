@@ -51,6 +51,9 @@ const server = new GraphQLServer({
       debug: process.env.NODE_ENV === 'development' ? true : false, // log all GraphQL queries & mutations
     }),
   }),
+  resolverValidationOptions: {
+    requireResolversForResolveType: false
+  }
 });
 
 server.start(() => console.log('Server is running on http://localhost:4000'));
