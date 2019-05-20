@@ -19,9 +19,6 @@
     "react-scripts-ts": "^2.16.0",
     "subscriptions-transport-ws": "^0.9.11"
   },
-  "resolutions": {
-    "apollo-link": "1.2.1"
-  },
   "scripts": {
     "start": "react-scripts-ts start",
     "build": "react-scripts-ts build",
