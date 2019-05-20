@@ -1,7 +1,11 @@
 import * as React from 'react';
+import Button from './common/Button';
+import ExpandLessIcon from './common/ExpendLessIcon';
+import ExpandMoreIcon from './common/ExpandMoreIcon';
 import Mutation from 'react-apollo/Mutation';
 import Query from 'react-apollo/Query';
 import RecipeDetails from './RecipeDetails';
+import styled from '../styles/styled';
 import { ALL_RECIPES_QUERY } from '../queries/all-recipes-query';
 import { ApolloConsumer } from 'react-apollo';
 import { ClientState } from '../apolloClientSetup';
@@ -40,63 +44,71 @@ class RecipeList extends React.Component<Props, State> {
     this.props.subscribeToRecipes();
   }
 
+  isToggled = (id: string) => this.state.toggledItems.includes(id);
+
   render() {
     return (
       <div>
         {this.props.allRecipes.map(recipe => (
-          <div style={style} key={recipe.id}>
-            {recipe.title}
-            <button onClick={this.onToggle(recipe.id)}>Toggle</button>
+          <RecipeItem key={recipe.id}>
+            <RecipeItemHeader>
+              <RecipeItemHeaderToggle onClick={this.onToggle(recipe.id)}>
+                {recipe.title}
+                {this.isToggled(recipe.id) ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+              </RecipeItemHeaderToggle>
 
-            <div style={{ float: 'right' }}>
-              <ApolloConsumer>
-                {client => (
-                  <button
-                    onClick={() =>
-                      client.writeData<Partial<ClientState>>({
-                        data: {
-                          editModal: {
-                            isEditModalOpen: true,
-                            recipeId: recipe.id,
-                            __typename: 'editModal',
+              <div>
+                <ApolloConsumer>
+                  {client => (
+                    <Button
+                      onClick={() =>
+                        client.writeData<Partial<ClientState>>({
+                          data: {
+                            editModal: {
+                              isEditModalOpen: true,
+                              recipeId: recipe.id,
+                              __typename: 'editModal',
+                            },
                           },
-                        },
-                      })
-                    }
-                  >
-                    Edit
-                  </button>
-                )}
-              </ApolloConsumer>
+                        })
+                      }
+                    >
+                      Edit
+                    </Button>
+                  )}
+                </ApolloConsumer>
 
-              <Mutation<DeleteRecipe, DeleteRecipeVariables>
-                mutation={DELETE_RECIPE_MUTATION}
-                update={(cache, { data }) => {
-                  if (!data) return;
+                <Mutation<DeleteRecipe, DeleteRecipeVariables>
+                  mutation={DELETE_RECIPE_MUTATION}
+                  update={(cache, { data }) => {
+                    if (!data) return;
 
-                  const allRecipesData = cache.readQuery<AllRecipes>({ query: ALL_RECIPES_QUERY });
+                    const allRecipesData = cache.readQuery<AllRecipes>({
+                      query: ALL_RECIPES_QUERY,
+                    });
 
-                  if (!allRecipesData) return;
+                    if (!allRecipesData) return;
 
-                  cache.writeQuery<AllRecipes>({
-                    query: ALL_RECIPES_QUERY,
-                    data: {
-                      allRecipes: allRecipesData.allRecipes.filter(
-                        rec => rec.id !== data.deleteRecipe.id
-                      ),
-                    },
-                  });
-                }}
-              >
-                {deleteRecipe => (
-                  <button onClick={() => deleteRecipe({ variables: { id: recipe.id } })}>
-                    Delete
-                  </button>
-                )}
-              </Mutation>
-            </div>
+                    cache.writeQuery<AllRecipes>({
+                      query: ALL_RECIPES_QUERY,
+                      data: {
+                        allRecipes: allRecipesData.allRecipes.filter(
+                          rec => rec.id !== data.deleteRecipe.id
+                        ),
+                      },
+                    });
+                  }}
+                >
+                  {deleteRecipe => (
+                    <Button onClick={() => deleteRecipe({ variables: { id: recipe.id } })}>
+                      Delete
+                    </Button>
+                  )}
+                </Mutation>
+              </div>
+            </RecipeItemHeader>
 
-            {this.state.toggledItems.includes(recipe.id) && (
+            {this.isToggled(recipe.id) && (
               <Query<GetRecipe, GetRecipeVariables>
                 query={RECIPE_DETAILS_QUERY}
                 variables={{ id: recipe.id }}
@@ -106,21 +118,47 @@ class RecipeList extends React.Component<Props, State> {
                     return <p>...loading</p>;
                   }
 
-                  return data && data.recipe ? <RecipeDetails recipe={data.recipe} /> : null;
+                  return data && data.recipe ? (
+                    <RecipeItemContent>
+                      <RecipeDetails recipe={data.recipe} />
+                    </RecipeItemContent>
+                  ) : null;
                 }}
               </Query>
             )}
-          </div>
+          </RecipeItem>
         ))}
       </div>
     );
   }
 }
 
-const style = {
-  border: '1px solid #ccc',
-  padding: 10,
-  margin: 10,
-};
+const RecipeItem = styled.div(({ theme }) => ({
+  background: theme.grey[100],
+  marginBottom: theme.gaps.xs,
+  borderBottom: `2px solid ${theme.grey[200]}`,
+}));
+
+const RecipeItemHeader = styled.div(({ theme }) => ({
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  padding: `0 ${theme.gaps.xs}px`,
+}));
+
+const RecipeItemHeaderToggle = styled.div(({ theme }) => ({
+  padding: `${theme.gaps.xs}px ${theme.gaps.sm}px ${theme.gaps.xs}px 0`,
+  display: 'flex',
+  alignItems: 'center',
+  flex: 1,
+  justifyContent: 'space-between',
+  '&:hover': {
+    cursor: 'pointer',
+  },
+}));
+
+const RecipeItemContent = styled.div(({ theme }) => ({
+  padding: theme.gaps.xs,
+}));
 
 export default RecipeList;

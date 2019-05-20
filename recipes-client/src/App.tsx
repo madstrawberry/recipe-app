@@ -63,7 +63,7 @@ class App extends React.Component<{}, State> {
 
 const AddRecipeBlock = styled.div(({ theme }) => ({
   margin: 20,
-  background: theme.primary,
+  background: theme.primary.main,
   padding: '10px 20px',
 }));
 
