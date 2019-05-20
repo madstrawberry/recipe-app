@@ -1,5 +1,5 @@
 # source: https://eu1.prisma.sh/recipes/recipes-service/dev
-# timestamp: Fri Jun 29 2018 18:43:56 GMT+0200 (CEST)
+# timestamp: Mon May 20 2019 16:56:11 GMT+0200 (Central European Summer Time)
 
 type AggregateRecipe {
   count: Int!
@@ -9,6 +9,8 @@ type BatchPayload {
   """The number of nodes that have been affected by the Batch operation."""
   count: Long!
 }
+
+scalar DateTime
 
 """
 The `Long` scalar type represents non-fractional signed whole numeric values.
@@ -21,7 +23,7 @@ type Mutation {
   updateRecipe(data: RecipeUpdateInput!, where: RecipeWhereUniqueInput!): Recipe
   deleteRecipe(where: RecipeWhereUniqueInput!): Recipe
   upsertRecipe(where: RecipeWhereUniqueInput!, create: RecipeCreateInput!, update: RecipeUpdateInput!): Recipe!
-  updateManyRecipes(data: RecipeUpdateInput!, where: RecipeWhereInput): BatchPayload!
+  updateManyRecipes(data: RecipeUpdateManyMutationInput!, where: RecipeWhereInput): BatchPayload!
   deleteManyRecipes(where: RecipeWhereInput): BatchPayload!
 }
 
@@ -72,6 +74,8 @@ type Recipe implements Node {
   category: [RecipeCategory!]!
   image: String
   ingredients: [String!]!
+  updatedAt: DateTime!
+  createdAt: DateTime!
 }
 
 enum RecipeCategory {
@@ -103,6 +107,7 @@ input RecipeCreateingredientsInput {
 }
 
 input RecipeCreateInput {
+  id: ID
   title: String!
   description: String!
   type: RecipeType!
@@ -145,6 +150,8 @@ type RecipePreviousValues {
   category: [RecipeCategory!]!
   image: String
   ingredients: [String!]!
+  updatedAt: DateTime!
+  createdAt: DateTime!
 }
 
 type RecipeSubscriptionPayload {
@@ -164,9 +171,7 @@ input RecipeSubscriptionWhereInput {
   """Logical NOT on all given filters combined by AND."""
   NOT: [RecipeSubscriptionWhereInput!]
 
-  """
-  The subscription event gets dispatched when it's listed in mutation_in
-  """
+  """The subscription event gets dispatched when it's listed in mutation_in"""
   mutation_in: [MutationType!]
 
   """
@@ -202,6 +207,15 @@ input RecipeUpdateingredientsInput {
 }
 
 input RecipeUpdateInput {
+  title: String
+  description: String
+  type: RecipeType
+  image: String
+  category: RecipeUpdatecategoryInput
+  ingredients: RecipeUpdateingredientsInput
+}
+
+input RecipeUpdateManyMutationInput {
   title: String
   description: String
   type: RecipeType
@@ -389,6 +403,50 @@ input RecipeWhereInput {
 
   """All values not ending with the given string."""
   image_not_ends_with: String
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
 }
 
 input RecipeWhereUniqueInput {

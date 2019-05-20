@@ -9,7 +9,8 @@
   "dependencies": {
     "graphql-import": "^0.7.1",
     "graphql-yoga": "^1.17.4",
-    "prisma-binding": "^1.5.19"
+    "prisma-binding": "^2.3.10",
+    "prisma-client-lib": "^1.33.0"
   },
   "devDependencies": {
     "dotenv-cli": "^2.0.0",

@@ -19,7 +19,7 @@ seed:
 endpoint: ${env:PRISMA_ENDPOINT}
 
 #generate
-hooks: 
-  post-deploy: 
-    - graphql get-schema --project database 
-    - graphql prepare
+hooks:
+  post-deploy:
+    - graphql get-schema --project db
+    - graphql codegen

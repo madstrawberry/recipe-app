@@ -1,11 +1,13 @@
 type Recipe {
-  id: ID! @unique
+  id: ID! @id
   title: String!
   description: String!
   type: RecipeType!
-  category: [RecipeCategory!]!
+  category: [RecipeCategory!]! @scalarList(strategy: RELATION)
   image: String
-  ingredients: [String!]!
+  ingredients: [String!]! @scalarList(strategy: RELATION)
+  updatedAt: DateTime! @updatedAt
+  createdAt: DateTime! @createdAt
 }
 
 enum RecipeType {
