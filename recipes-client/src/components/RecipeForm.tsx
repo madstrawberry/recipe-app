@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { CreateRecipeVariables, GetEditRecipe_recipe } from '../generated';
 import { RecipeCategory, RecipeType } from '../models/recipe-models';
 
@@ -18,7 +18,7 @@ interface State {
 }
 
 class RecipeForm extends React.Component<Props, State> {
-  state: State; // somehow does not work without this...
+  state: State;
 
   constructor(props: Props) {
     super(props);
@@ -80,10 +80,15 @@ class RecipeForm extends React.Component<Props, State> {
   handleCheckbox = (event: React.FormEvent<HTMLInputElement>) => {
     const fieldValue = event.currentTarget.value;
     const fieldName = event.currentTarget.name;
+    let checked: any;
 
-    const checked = !event.currentTarget.checked
-      ? this.state[fieldName].filter((check: string) => check !== fieldValue)
-      : [...this.state[fieldName], fieldValue];
+    if (!event.currentTarget.checked) {
+      // @ts-ignore
+      checked = this.state[fieldName].filter((check: string) => check !== fieldValue);
+    } else {
+      // @ts-ignore
+      checked = [...this.state[fieldName], fieldValue];
+    }
 
     // @ts-ignore
     this.setState({ [fieldName]: checked });
@@ -137,7 +142,7 @@ class RecipeForm extends React.Component<Props, State> {
                   value={category}
                   checked={selectedCategory.includes(category as RecipeCategory)}
                 />
-                {RecipeCategory[category]}
+                {RecipeCategory[category as any]}
               </label>
             </div>
           ))}
@@ -154,7 +159,7 @@ class RecipeForm extends React.Component<Props, State> {
                   value={type}
                   checked={!!selectedType && selectedType === type}
                 />
-                {RecipeType[type]}
+                {RecipeType[type as any]}
               </label>
             </div>
           ))}

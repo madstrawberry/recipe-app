@@ -6,7 +6,7 @@ import { AllRecipes } from '../generated';
 
 interface Props {}
 
-const AllRecipes: React.SFC<Props> = props => {
+const AllRecipesComponent: React.SFC<Props> = props => {
   return (
     <Query<AllRecipes> query={ALL_RECIPES_QUERY}>
       {({ data, loading, error, subscribeToMore }) => {
@@ -29,4 +29,4 @@ const AllRecipes: React.SFC<Props> = props => {
   );
 };
 
-export default AllRecipes;
+export default AllRecipesComponent;

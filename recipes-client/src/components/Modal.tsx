@@ -1,5 +1,5 @@
-import * as ModalBox from 'react-modal';
-import * as React from 'react';
+import ModalBox from 'react-modal';
+import React from 'react';
 
 interface Props {
   onClickCloseModal: () => void;
