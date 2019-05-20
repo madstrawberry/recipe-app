@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "apollo": "^2.12.0",
     "apollo-cache-inmemory": "^1.5.1",
     "apollo-client": "^2.5.1",
     "apollo-link": "^1.2.11",
@@ -25,7 +26,7 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "apollo:schema": "node buildSchema.js",
-    "apollo:generate": "apollo codegen:generate ./src/generated.ts --target=typescript --schema=./schema.json  --queries=src/**/*.ts",
+    "apollo:generate": "apollo codegen:generate ./src/generated.ts --outputFlat --target=typescript --localSchemaFile=./schema.json  --queries=src/**/*.ts",
     "generate": "npm-run-all -s apollo:schema apollo:generate"
   },
   "devDependencies": {

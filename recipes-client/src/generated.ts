@@ -1,6 +1,5 @@
-
-
 /* tslint:disable */
+/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -8,6 +7,7 @@
 // ====================================================
 
 export interface CreateRecipe_createRecipe {
+  __typename: "Recipe";
   id: string;
   title: string;
 }
@@ -24,8 +24,8 @@ export interface CreateRecipeVariables {
   category: RecipeCategory[];
 }
 
-
 /* tslint:disable */
+/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -33,6 +33,7 @@ export interface CreateRecipeVariables {
 // ====================================================
 
 export interface DeleteRecipe_deleteRecipe {
+  __typename: "Recipe";
   id: string;
 }
 
@@ -44,8 +45,8 @@ export interface DeleteRecipeVariables {
   id: string;
 }
 
-
 /* tslint:disable */
+/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -53,6 +54,7 @@ export interface DeleteRecipeVariables {
 // ====================================================
 
 export interface EditRecipe_editRecipe {
+  __typename: "Recipe";
   id: string;
   title: string;
   description: string;
@@ -74,8 +76,8 @@ export interface EditRecipeVariables {
   category: RecipeCategory[];
 }
 
-
 /* tslint:disable */
+/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -83,6 +85,7 @@ export interface EditRecipeVariables {
 // ====================================================
 
 export interface AllRecipes_allRecipes {
+  __typename: "Recipe";
   id: string;
   title: string;
 }
@@ -91,8 +94,8 @@ export interface AllRecipes {
   allRecipes: AllRecipes_allRecipes[];
 }
 
-
 /* tslint:disable */
+/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -100,6 +103,7 @@ export interface AllRecipes {
 // ====================================================
 
 export interface EditModal_editModal {
+  __typename: "EditModal";
   isEditModalOpen: boolean;
   recipeId: string;
 }
@@ -108,8 +112,8 @@ export interface EditModal {
   editModal: EditModal_editModal;
 }
 
-
 /* tslint:disable */
+/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -117,6 +121,7 @@ export interface EditModal {
 // ====================================================
 
 export interface GetEditRecipe_recipe {
+  __typename: "Recipe";
   title: string;
   description: string;
   ingredients: string[];
@@ -132,8 +137,8 @@ export interface GetEditRecipeVariables {
   id: string;
 }
 
-
 /* tslint:disable */
+/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -141,6 +146,7 @@ export interface GetEditRecipeVariables {
 // ====================================================
 
 export interface GetRecipe_recipe {
+  __typename: "Recipe";
   category: RecipeCategory[];
   description: string;
   image: string | null;
@@ -156,8 +162,8 @@ export interface GetRecipeVariables {
   id: string;
 }
 
-
 /* tslint:disable */
+/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -165,15 +171,18 @@ export interface GetRecipeVariables {
 // ====================================================
 
 export interface RecipeSubscription_recipeSubscription_previousValues {
+  __typename: "RecipePreviousValues";
   id: string;
 }
 
 export interface RecipeSubscription_recipeSubscription_node {
+  __typename: "Recipe";
   id: string;
   title: string;
 }
 
 export interface RecipeSubscription_recipeSubscription {
+  __typename: "RecipeSubscriptionPayload";
   mutation: MutationType;
   previousValues: RecipeSubscription_recipeSubscription_previousValues | null;
   node: RecipeSubscription_recipeSubscription_node | null;
@@ -184,17 +193,17 @@ export interface RecipeSubscription {
 }
 
 /* tslint:disable */
+/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 //==============================================================
 // START Enums and Input Objects
 //==============================================================
 
-export enum RecipeType {
-  Dessert = "Dessert",
-  Main = "Main",
-  Side = "Side",
-  Starter = "Starter",
+export enum MutationType {
+  CREATED = "CREATED",
+  DELETED = "DELETED",
+  UPDATED = "UPDATED",
 }
 
 export enum RecipeCategory {
@@ -207,10 +216,11 @@ export enum RecipeCategory {
   Vegetarian = "Vegetarian",
 }
 
-export enum MutationType {
-  CREATED = "CREATED",
-  DELETED = "DELETED",
-  UPDATED = "UPDATED",
+export enum RecipeType {
+  Dessert = "Dessert",
+  Main = "Main",
+  Side = "Side",
+  Starter = "Starter",
 }
 
 //==============================================================
