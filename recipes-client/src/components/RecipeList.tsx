@@ -6,10 +6,9 @@ import Mutation from 'react-apollo/Mutation';
 import Query from 'react-apollo/Query';
 import RecipeDetails from './RecipeDetails';
 import styled from '../styles/styled';
-import { ALL_RECIPES_QUERY } from '../queries/all-recipes-query';
 import { ApolloConsumer } from 'react-apollo';
 import { ClientState } from '../apolloClientSetup';
-import { DELETE_RECIPE_MUTATION } from '../mutations/delete-recipe-mutation';
+import { DELETE_RECIPE_MUTATION, deleteRecipeUpdate } from '../mutations/delete-recipe-mutation';
 import { RECIPE_DETAILS_QUERY } from '../queries/recipe-details-query';
 import {
   AllRecipes,
@@ -61,6 +60,7 @@ class RecipeList extends React.Component<Props, State> {
                 <ApolloConsumer>
                   {client => (
                     <Button
+                      small
                       onClick={() =>
                         client.writeData<Partial<ClientState>>({
                           data: {
@@ -80,27 +80,10 @@ class RecipeList extends React.Component<Props, State> {
 
                 <Mutation<DeleteRecipe, DeleteRecipeVariables>
                   mutation={DELETE_RECIPE_MUTATION}
-                  update={(cache, { data }) => {
-                    if (!data) return;
-
-                    const allRecipesData = cache.readQuery<AllRecipes>({
-                      query: ALL_RECIPES_QUERY,
-                    });
-
-                    if (!allRecipesData) return;
-
-                    cache.writeQuery<AllRecipes>({
-                      query: ALL_RECIPES_QUERY,
-                      data: {
-                        allRecipes: allRecipesData.allRecipes.filter(
-                          rec => rec.id !== data.deleteRecipe.id
-                        ),
-                      },
-                    });
-                  }}
+                  update={deleteRecipeUpdate}
                 >
                   {deleteRecipe => (
-                    <Button onClick={() => deleteRecipe({ variables: { id: recipe.id } })}>
+                    <Button small onClick={() => deleteRecipe({ variables: { id: recipe.id } })}>
                       Delete
                     </Button>
                   )}
@@ -143,11 +126,11 @@ const RecipeItemHeader = styled.div(({ theme }) => ({
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
-  padding: `0 ${theme.gaps.xs}px`,
+  padding: `0 ${theme.gaps.sm}px`,
 }));
 
 const RecipeItemHeaderToggle = styled.div(({ theme }) => ({
-  padding: `${theme.gaps.xs}px ${theme.gaps.sm}px ${theme.gaps.xs}px 0`,
+  padding: `${theme.gaps.sm}px ${theme.gaps.sm}px ${theme.gaps.sm}px 0`,
   display: 'flex',
   alignItems: 'center',
   flex: 1,
@@ -158,7 +141,7 @@ const RecipeItemHeaderToggle = styled.div(({ theme }) => ({
 }));
 
 const RecipeItemContent = styled.div(({ theme }) => ({
-  padding: theme.gaps.xs,
+  padding: theme.gaps.sm,
 }));
 
 export default RecipeList;

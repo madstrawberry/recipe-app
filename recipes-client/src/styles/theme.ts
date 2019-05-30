@@ -13,7 +13,7 @@ export const theme = {
   },
   text: {
     main: '#111',
-    inverted: '#eeeeee',
+    inverted: '#fff',
   },
   grey: {
     50: '#fafafa',

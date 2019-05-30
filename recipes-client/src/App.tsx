@@ -1,7 +1,7 @@
 import * as React from 'react';
-import AddRecipeButton from './components/OpenRecipesButton';
 import AddRecipeFormModal from './components/AddRecipeFormModal';
 import AllRecipes from './components/AllRecipes';
+import Button from './components/common/Button';
 import EditRecipeFormModal from './components/EditRecipeFormModal';
 import styled from './styles/styled';
 import { ClientState } from './apolloClientSetup';
@@ -25,11 +25,11 @@ class App extends React.Component<{}, State> {
     return (
       <div>
         <AddRecipeBlock>
-          <h2>Voeg Recept toe</h2>
-          <AddRecipeButton onClick={this.toggleAddRecipeModal} />
+          <Button primary inverted fullWidth onClick={this.toggleAddRecipeModal}>
+            Voeg recept toe
+          </Button>
         </AddRecipeBlock>
 
-        <h1>Alle Recepten</h1>
         <AllRecipes />
 
         {this.state.isAddRecipeModalOpen && (
@@ -62,9 +62,8 @@ class App extends React.Component<{}, State> {
 }
 
 const AddRecipeBlock = styled.div(({ theme }) => ({
-  margin: 20,
   background: theme.primary.main,
-  padding: '10px 20px',
+  padding: theme.gaps.sm,
 }));
 
 export default App;
