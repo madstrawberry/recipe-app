@@ -24,7 +24,7 @@
     "react-modal": "^3.8.1",
     "react-scripts": "^3.0.1",
     "subscriptions-transport-ws": "^0.9.16",
-    "yarn": "^1.16.0"
+    "yarn": "^1.22.0"
   },
   "scripts": {
     "start": "react-scripts start",
